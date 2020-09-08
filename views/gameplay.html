@@ -1,0 +1,10 @@
+% include('nav.html')
+
+% for i, row in enumerate(matrika):
+    % for j, col in enumerate(row):
+    <a href="/gameplay/{{i}}/{{j}}/">
+        <button type="btn btn-primary">🥵</button>
+    </a>
+    % end
+    <br>
+% end
