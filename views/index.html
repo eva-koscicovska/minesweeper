@@ -14,8 +14,16 @@
                 <input class="input" type="text" placeholder="Uporabniško ime" name="uporabnisko_ime" required>
             </div>
             <div class="control">
-                <input type="submit" class="btn btn-primary">
+                <input type="submit" class="btn btn-primary" value="Play">
             </div>
         </div>
-    </form> 
+    </form>
+
+    % if defined('warning'):
+        <br>
+        <button class='btn btn-danger btn-block'>
+            You lost!
+            <h4>Score: {{score}}</h4>
+        </button>
+    % end
 </div>
