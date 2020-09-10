@@ -31,7 +31,6 @@ def gameplay_get(row, col):
     score = igra.uporabnik.score
     if matrika[int(row)][int(col)] == -2:
         igra.povecaj_skor(MINA_SKOR)
-        igra.posodobi_skor(score)
         score = igra.uporabnik.score
         igra.okoli_stej(int(row), int(col))
         for row in igra.matrika:
