@@ -4,17 +4,14 @@ import bottle
 import random
 import json
 import os
+import hashlib
 from model import Uporabnik, Igra
 
-imenik_s_podatki = 'uporabniki'
-uporabniki = {}
-
-if not os.path.isdir(imenik_s_podatki):
-    os.mkdir(imenik_s_podatki)
+IMENIK_S_PODATKI = 'uporabniki'
 
 @bottle.get('/')
 def zacetna_stran():
-    return bottle.template('index.html')
+    return bottle.template('index.html', uporabniki = Uporabnik.nalozi_vsi(IMENIK_S_PODATKI))
 
 @bottle.post('/')
 def zacetna_stran_post():
@@ -38,9 +35,11 @@ def gameplay_get(row, col):
         return bottle.template('gameplay.html', matrika = matrika, score = score)
     else:
         global username
-        with open(imenik_s_podatki + '/' + username + '.json', 'w') as file:
-            u = Uporabnik(username, score)
-            json.dump(u.__dict__, file, indent = 4)
+        Uporabnik(username, score).shrani_stanje(IMENIK_S_PODATKI)
         return bottle.template('index.html', warning = '', score = score)
 
-bottle.run(host='127.0.0.1', port = 80, debug = True, reloader = True)
+@bottle.get('/pomoc')
+def pomoc():
+    return bottle.template('pomoc.html')
+
+bottle.run(host = '127.0.0.1', port = 80, debug = True, reloader = True)
