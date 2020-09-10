@@ -1,5 +1,6 @@
 import json
 import os
+import random
 
 class Uporabnik:
     def __init__(self, uporabnisko_ime, score):
@@ -37,60 +38,79 @@ class Uporabnik:
             json.dump(self.__dict__, file, ensure_ascii = False, indent = 4)
 
 class Igra:
-    def __init__(self, vrstice, stolpcev):
-        self.vrstice = vrstice
-        self.stolpcev = stolpcev
+    def generiraj_matrika(self, st_vrstic, st_stolpcev):
+        self.matrika = [[random.randint(-2, -1) for _ in range(st_vrstic)] for _ in range(st_stolpcev)]
 
-    @classmethod
-    def okoli_stej(cls, matrika, row, col):
+        stevec = 0
+        for row in self.matrika:
+            for col in row:
+                if col == -1:
+                    stevec += 1
+        self.stevec = stevec
+
+        for row in self.matrika:
+            for col in row:
+                print(col)
+            print('xD')
+
+    def podaj_uporabnik(self, uporabnik):
+        self.uporabnik = uporabnik
+
+    def okoli_stej(self, row, col):
         okoli_stevec = 0
 
         try:
-            if row - 1 > -1 and matrika[row - 1][col] == -1:
+            if row - 1 > -1 and self.matrika[row - 1][col] == -1:
                 okoli_stevec += 1
         except IndexError as identifier:
             pass
 
         try:
-            if matrika[row + 1][col] == -1:
+            if self.matrika[row + 1][col] == -1:
                 okoli_stevec += 1
         except IndexError as identifier:
             pass
 
         try:
-            if col - 1 > -1 and matrika[row][col - 1] == -1:
+            if col - 1 > -1 and self.matrika[row][col - 1] == -1:
                 okoli_stevec += 1
         except IndexError as identifier:
             pass
         
         try:
-            if matrika[row][col + 1] == -1:
+            if self.matrika[row][col + 1] == -1:
                 okoli_stevec += 1
         except IndexError as identifier:
             pass
         
         try:
-            if row - 1 > -1 and matrika[row - 1][col + 1] == -1:
+            if row - 1 > -1 and self.matrika[row - 1][col + 1] == -1:
                 okoli_stevec += 1
         except IndexError as identifier:
             pass
         
         try:
-            if row - 1 > -1 and col - 1 > -1 and matrika[row - 1][col - 1] == -1:
+            if row - 1 > -1 and col - 1 > -1 and self.matrika[row - 1][col - 1] == -1:
                 okoli_stevec += 1
         except IndexError as identifier:
             pass
         
         try:
-            if matrika[row + 1][col + 1] == -1:
+            if self.matrika[row + 1][col + 1] == -1:
                 okoli_stevec += 1
         except IndexError as identifier:
             pass
 
         try:
-            if col - 1 > -1 and matrika[row + 1][col - 1] == -1:
+            if col - 1 > -1 and self.matrika[row + 1][col - 1] == -1:
                 okoli_stevec += 1
         except IndexError as identifier:
             pass
 
-        matrika[row][col] = okoli_stevec
+        self.matrika[row][col] = okoli_stevec
+
+    def povecaj_skor(self, stevilo):
+        self.uporabnik.score += stevilo
+
+    def zamenjaj_skor(self, score):
+        self.uporabnik.score = score
