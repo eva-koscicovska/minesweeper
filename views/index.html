@@ -1,7 +1,7 @@
 % include('nav.html')
 
 <div class="container">
-    <p>Osnovne nastavitve</p>
+    <b><h1 class="text-center">Osnovne nastavitve</h1></b>
     <form action="/" method="POST">
         <div class="control">
             <div class="control">
@@ -40,8 +40,12 @@
 
     % if defined('warning'):
         <br>
-        <button class='btn btn-danger btn-block'>
-            You lost!
+        % if warning == 'You lost!':
+        <button class='btn btn-danger btn-block disabled'>
+        % else:
+        <button class='btn btn-success btn-block disabled'>
+        % end
+            {{warning}}
             <h4>Score: {{score}}</h4>
         </button>
     % end

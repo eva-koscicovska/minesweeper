@@ -20,23 +20,34 @@ def zacetna_stran_post():
     global matrika
     global score
     global username
+    global stevec
+    stevec = 0
     score = 0
     username = bottle.request.forms.getunicode('uporabnisko_ime')
     matrika = [[random.randint(0, 1) for _ in range(st_vrstic)] for _ in range(st_stolpcev)]
-    return bottle.template('gameplay.html', matrika = matrika, score = score)
+    for row in matrika:
+            for col in row:
+                if col == 1:
+                    stevec += 1
+    return bottle.template('gameplay.html', matrika = matrika, score = score, stevec = stevec)
 
 @bottle.get('/gameplay/<row>/<col>/')
 def gameplay_get(row, col):
     global matrika
+    global username
     if matrika[int(row)][int(col)] == 0:
         global score
         score += 10
         matrika[int(row)][int(col)] = 'X'
-        return bottle.template('gameplay.html', matrika = matrika, score = score)
-    else:
-        global username
+        for row in matrika:
+            for col in row:
+                if col == 0:
+                    return bottle.template('gameplay.html', matrika = matrika, score = score, stevec = stevec)
         Uporabnik(username, score).shrani_stanje(IMENIK_S_PODATKI)
-        return bottle.template('index.html', warning = '', score = score)
+        return bottle.template('index.html', warning = 'You win!', score = score)
+    else:
+        Uporabnik(username, score).shrani_stanje(IMENIK_S_PODATKI)
+        return bottle.template('index.html', warning = 'You lost!', score = score)
 
 @bottle.get('/pomoc')
 def pomoc():
