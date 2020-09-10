@@ -25,10 +25,16 @@ def zacetna_stran_post():
     score = 0
     username = bottle.request.forms.getunicode('uporabnisko_ime')
     matrika = [[random.randint(-2, -1) for _ in range(st_vrstic)] for _ in range(st_stolpcev)]
+    
     for row in matrika:
-            for col in row:
-                if col == -1:
-                    stevec += 1
+        for col in row:
+            print(col)
+        print('xD')
+
+    for row in matrika:
+        for col in row:
+            if col == -1:
+                stevec += 1
     return bottle.template('gameplay.html', matrika = matrika, score = score, stevec = stevec)
 
 @bottle.get('/gameplay/<row>/<col>/')
@@ -38,58 +44,7 @@ def gameplay_get(row, col):
     if matrika[int(row)][int(col)] == -2:
         global score
         score += 10
-        okoli_stevec = 0
-        
-        try:
-            if matrika[int(row) - 1][int(col)] == -1:
-                okoli_stevec += 1
-        except IndexError as identifier:
-            pass
-
-        try:
-            if matrika[int(row) + 1][int(col)] == -1:
-                okoli_stevec += 1
-        except IndexError as identifier:
-            pass
-
-        try:
-            if matrika[int(row)][int(col) - 1] == -1:
-                okoli_stevec += 1
-        except IndexError as identifier:
-            pass
-        
-        try:
-            if matrika[int(row)][int(col) + 1] == -1:
-                okoli_stevec += 1
-        except IndexError as identifier:
-            pass
-        
-        try:
-            if matrika[int(row) - 1][int(col) + 1] == -1:
-                okoli_stevec += 1
-        except IndexError as identifier:
-            pass
-        
-        try:
-            if matrika[int(row) - 1][int(col) - 1] == -1:
-                okoli_stevec += 1
-        except IndexError as identifier:
-            pass
-        
-        try:
-            if matrika[int(row) + 1][int(col) + 1] == -1:
-                okoli_stevec += 1
-        except IndexError as identifier:
-            pass
-
-        try:
-            if matrika[int(row) + 1][int(col) - 1] == -1:
-                okoli_stevec += 1
-        except IndexError as identifier:
-            pass
-
-
-        matrika[int(row)][int(col)] = okoli_stevec
+        Igra.okoli_stej(matrika, int(row), int(col))
         for row in matrika:
             for col in row:
                 if col == -2:

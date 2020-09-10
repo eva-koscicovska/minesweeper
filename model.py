@@ -40,3 +40,57 @@ class Igra:
     def __init__(self, vrstice, stolpcev):
         self.vrstice = vrstice
         self.stolpcev = stolpcev
+
+    @classmethod
+    def okoli_stej(cls, matrika, row, col):
+        okoli_stevec = 0
+
+        try:
+            if row - 1 > -1 and matrika[row - 1][col] == -1:
+                okoli_stevec += 1
+        except IndexError as identifier:
+            pass
+
+        try:
+            if matrika[row + 1][col] == -1:
+                okoli_stevec += 1
+        except IndexError as identifier:
+            pass
+
+        try:
+            if col - 1 > -1 and matrika[row][col - 1] == -1:
+                okoli_stevec += 1
+        except IndexError as identifier:
+            pass
+        
+        try:
+            if matrika[row][col + 1] == -1:
+                okoli_stevec += 1
+        except IndexError as identifier:
+            pass
+        
+        try:
+            if row - 1 > -1 and matrika[row - 1][col + 1] == -1:
+                okoli_stevec += 1
+        except IndexError as identifier:
+            pass
+        
+        try:
+            if row - 1 > -1 and col - 1 > -1 and matrika[row - 1][col - 1] == -1:
+                okoli_stevec += 1
+        except IndexError as identifier:
+            pass
+        
+        try:
+            if matrika[row + 1][col + 1] == -1:
+                okoli_stevec += 1
+        except IndexError as identifier:
+            pass
+
+        try:
+            if col - 1 > -1 and matrika[row + 1][col - 1] == -1:
+                okoli_stevec += 1
+        except IndexError as identifier:
+            pass
+
+        matrika[row][col] = okoli_stevec
