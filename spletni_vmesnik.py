@@ -1,10 +1,6 @@
 #!/usr/bin/env python
 
 import bottle
-import random
-import json
-import os
-import hashlib
 from model import Uporabnik, Igra
 
 IMENIK_S_PODATKI = 'uporabniki'
