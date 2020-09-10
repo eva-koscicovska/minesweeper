@@ -24,10 +24,10 @@ def zacetna_stran_post():
     stevec = 0
     score = 0
     username = bottle.request.forms.getunicode('uporabnisko_ime')
-    matrika = [[random.randint(0, 1) for _ in range(st_vrstic)] for _ in range(st_stolpcev)]
+    matrika = [[random.randint(-2, -1) for _ in range(st_vrstic)] for _ in range(st_stolpcev)]
     for row in matrika:
             for col in row:
-                if col == 1:
+                if col == -1:
                     stevec += 1
     return bottle.template('gameplay.html', matrika = matrika, score = score, stevec = stevec)
 
@@ -35,16 +35,68 @@ def zacetna_stran_post():
 def gameplay_get(row, col):
     global matrika
     global username
-    if matrika[int(row)][int(col)] == 0:
+    if matrika[int(row)][int(col)] == -2:
         global score
         score += 10
-        matrika[int(row)][int(col)] = 'X'
+        okoli_stevec = 0
+        
+        try:
+            if matrika[int(row) - 1][int(col)] == -1:
+                okoli_stevec += 1
+        except IndexError as identifier:
+            pass
+
+        try:
+            if matrika[int(row) + 1][int(col)] == -1:
+                okoli_stevec += 1
+        except IndexError as identifier:
+            pass
+
+        try:
+            if matrika[int(row)][int(col) - 1] == -1:
+                okoli_stevec += 1
+        except IndexError as identifier:
+            pass
+        
+        try:
+            if matrika[int(row)][int(col) + 1] == -1:
+                okoli_stevec += 1
+        except IndexError as identifier:
+            pass
+        
+        try:
+            if matrika[int(row) - 1][int(col) + 1] == -1:
+                okoli_stevec += 1
+        except IndexError as identifier:
+            pass
+        
+        try:
+            if matrika[int(row) - 1][int(col) - 1] == -1:
+                okoli_stevec += 1
+        except IndexError as identifier:
+            pass
+        
+        try:
+            if matrika[int(row) + 1][int(col) + 1] == -1:
+                okoli_stevec += 1
+        except IndexError as identifier:
+            pass
+
+        try:
+            if matrika[int(row) + 1][int(col) - 1] == -1:
+                okoli_stevec += 1
+        except IndexError as identifier:
+            pass
+
+
+        matrika[int(row)][int(col)] = okoli_stevec
         for row in matrika:
             for col in row:
-                if col == 0:
+                if col == -2:
                     return bottle.template('gameplay.html', matrika = matrika, score = score, stevec = stevec)
+        score *= 2
         Uporabnik(username, score).shrani_stanje(IMENIK_S_PODATKI)
-        return bottle.template('index.html', warning = 'You win!', score = score)
+        return bottle.template('index.html', warning = 'You won!', score = score)
     else:
         Uporabnik(username, score).shrani_stanje(IMENIK_S_PODATKI)
         return bottle.template('index.html', warning = 'You lost!', score = score)

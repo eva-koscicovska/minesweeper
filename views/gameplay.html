@@ -3,11 +3,11 @@
 <div class="container">
     % for i, row in enumerate(matrika):
         % for j, col in enumerate(row):
-            % if col == 'X':
-                <button type="btn btn-primary">✔</button>
+            % if col > -1:
+                <button type="btn btn-primary">_{{col}}_</button>
             % else:
                 <a href="/gameplay/{{i}}/{{j}}/">
-                    <button type="btn btn-primary">🥵</button>
+                    <button type="btn btn-primary ">🥵</button>
                 </a>
             % end
         % end
